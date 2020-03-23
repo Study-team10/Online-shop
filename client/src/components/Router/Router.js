@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { publicRoutes } from "routes";
+import { publicRoutes } from "@routes";
 const Router = () => {
   return (
     <BrowserRouter>
       <Switch>
         {publicRoutes.map((route, index) => (
-          <Route path="/">
+          <Route key={index} path="/">
             <route.component />
           </Route>
         ))}

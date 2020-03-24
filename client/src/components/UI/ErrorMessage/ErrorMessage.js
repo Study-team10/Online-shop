@@ -17,11 +17,20 @@ const ContainedError = styled(StyledError)`
   height: 35px;
   background: ${({ children }) => children && "#f9000038"};
 `;
-const ErrorMessage = ({ children, variant, value, ...props }) => {
+
+const ErrorMessage = ({ children, variant, value, touched, ...props }) => {
   if (variant === "contained") {
-    return <ContainedError {...props}>{value}</ContainedError>;
+    return value && touched ? (
+      <ContainedError {...props}>{value}</ContainedError>
+    ) : (
+      <ContainedError></ContainedError>
+    );
   }
-  return <StyledError {...props}>{value}</StyledError>;
+  return value && touched ? (
+    <StyledError {...props}>{value}</StyledError>
+  ) : (
+    <StyledError></StyledError>
+  );
 };
 
 // ErrorMessage.propTypes = {

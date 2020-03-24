@@ -29,19 +29,12 @@ const SignupForm = ({ switchForm }) => {
           lastName: "",
           email: "",
           password: "",
-          age: null
+          age: ""
         }}
         validationSchema={SignupSchema}
         onSubmit={async values => {
-          console.log("tu");
           try {
-            const res = await axios.post("/user/signup", {
-              firstName: "Kristina",
-              lastName: "Pejcic",
-              password: values.password,
-              email: values.email,
-              age: 25
-            });
+            const res = await axios.post("/user/signup", values);
             console.log("success", res);
           } catch (error) {
             console.log(error.message);
@@ -49,14 +42,23 @@ const SignupForm = ({ switchForm }) => {
         }}
       >
         {({ values, errors, touched, isSubmitting, ...props }) => {
-          console.log(errors);
           return (
             <Form>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Field name="email" type="email" />
+                <Field name="firstName" type="text" placeholder="First Name" />
+                <ErrorMessage name="firstName" value={errors.firstName} />
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <Field name="lastName" type="text" placeholder="Last Name" />
+                <ErrorMessage name="lastName" value={errors.lastName} />
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <Field name="email" type="email" placeholder="E-mail" />
                 <ErrorMessage name="email" value={errors.email} />
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <Field name="age" type="number" placeholder="Age" />
+                <ErrorMessage name="age" value={errors.age} />
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                 <Field
@@ -66,8 +68,6 @@ const SignupForm = ({ switchForm }) => {
                   type="password"
                   placeholder="Password"
                 />
-              </Grid>
-              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                 <ErrorMessage name="password" value={errors.password} />
               </Grid>
               <p>

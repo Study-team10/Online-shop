@@ -2,14 +2,20 @@ import React from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { LoginSchema } from "@forms/validations";
 import { Grid } from "@components";
+import { axios } from "@util";
 const LoginForm = ({ switchForm }) => {
   return (
     <Grid container>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
-        onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
+        onSubmit={async values => {
+          try {
+            const res = await axios.post("/user/login", values);
+            console.log("success", res);
+          } catch (error) {
+            console.log(error.message);
+          }
         }}
       >
         {({
@@ -21,24 +27,21 @@ const LoginForm = ({ switchForm }) => {
           handleSubmit,
           isSubmitting
         }) => {
-          console.log(errors);
           return (
-            <form onSubmit={handleSubmit}>
+            <Form>
               <Grid container direction="column">
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                  <Field type="email" name="email" />
+                  <Field name="email" type="email" placeholder="E-mail" />
+                  <ErrorMessage name="email" value={errors.email} />
                 </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                  <ErrorMessage name="email" component="div" />
-                </Grid>
-              </Grid>
 
-              <Grid container direction="column">
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                  <Field type="password" name="password" />
-                </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                  <ErrorMessage name="password" component="div" />
+                  <Field
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                  />
+                  <ErrorMessage name="password" value={errors.password} />
                 </Grid>
               </Grid>
               <p>
@@ -53,7 +56,7 @@ const LoginForm = ({ switchForm }) => {
               <button type="submit" disabled={isSubmitting}>
                 Submit
               </button>
-            </form>
+            </Form>
           );
         }}
       </Formik>

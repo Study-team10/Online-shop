@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Field } from "formik";
+import { Formik, Field, Form } from "formik";
 import { SignupSchema } from "@forms/validations";
 import { Grid, ErrorMessage } from "@components";
 import { TextInput } from "@inputs";
@@ -32,43 +32,43 @@ const SignupForm = ({ switchForm }) => {
           age: null
         }}
         validationSchema={SignupSchema}
-        onSubmit={handleSubmit}
+        onSubmit={async values => {
+          console.log("tu");
+          try {
+            const res = await axios.post("/user/signup", {
+              firstName: "Kristina",
+              lastName: "Pejcic",
+              password: values.password,
+              email: values.email,
+              age: 25
+            });
+            console.log("success", res);
+          } catch (error) {
+            console.log(error.message);
+          }
+        }}
       >
         {({ values, errors, touched, isSubmitting, ...props }) => {
           console.log(errors);
           return (
-            <form onSubmit={handleSubmit}>
+            <Form>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <Field
-                  // fullWidth={true}
-                  // required
-                  name="email"
-                  type="email"
-                  placeholder="E-mail"
-                  // component={TextInput}
-                  {...props}
-                  value={values.email}
-                />
+                <Field name="email" type="email" />
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                 <ErrorMessage name="email" value={errors.email} />
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                 <Field
-                  // fullWidth={true}
-                  required
                   name="password"
                   label="password"
                   id="password"
                   type="password"
                   placeholder="Password"
-                  // component={TextInput}
-                  // value={values.password}
-                  {...props}
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                <ErrorMessage name="password" component="div" />
+                <ErrorMessage name="password" value={errors.password} />
               </Grid>
               <p>
                 Already have account?
@@ -83,7 +83,7 @@ const SignupForm = ({ switchForm }) => {
               <button type="submit" disabled={isSubmitting}>
                 Submit
               </button>
-            </form>
+            </Form>
           );
         }}
       </Formik>

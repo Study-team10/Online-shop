@@ -1,17 +1,18 @@
 import bcrypt from "bcryptjs";
 
 import User from "../../models/User";
+import { response } from "../../utils"
 
 export const signup = async (req, res, next) => {
     try {
 
         const { firstName, lastName, email, password, age } = req.body;
         if (!firstName || !lastName || !email || !password || !age)
-            return res.status(400).json({ "message": "All fields are required" });
+            return res.status(400).json(response(false, "All fields are required."));
 
         const existingEmail = await User.findOne({ email });
         if (existingEmail)
-            return res.status(400).json({ "message": "User with this email already exists." });
+            return res.status(400).json(response(false, "User with this email already exists."));
 
         const newPass = await bcrypt.hash(password, 12);
         const user = new User({
@@ -26,7 +27,7 @@ export const signup = async (req, res, next) => {
             if (err) console.log(err);
         });
 
-        return res.status(200).json({ "message": "User successfully registered" });
+        return res.status(200).json(response(true, "User successfully registered."));
 
     } catch (error) {
         return error;

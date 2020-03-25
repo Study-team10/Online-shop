@@ -19,7 +19,7 @@ const ContainedError = styled(StyledError)`
 `;
 
 const ErrorMessage = ({ children, variant, value, touched, ...props }) => {
-  console.log(value);
+  console.log(value, touched);
   if (variant === "contained") {
     return value && touched ? (
       <ContainedError {...props}>{value}</ContainedError>

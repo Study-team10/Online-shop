@@ -3,7 +3,11 @@ import { Formik, Field, Form } from "formik";
 import { LoginSchema } from "@forms/validations";
 import { Grid, ErrorMessage } from "@components";
 import { axios } from "@util";
+import { useHistory } from "react-router";
+
 const LoginForm = ({ switchForm }) => {
+  const [beError, setBeError] = useState("");
+  const history = useHistory();
   return (
     <Grid container>
       <Formik
@@ -12,9 +16,11 @@ const LoginForm = ({ switchForm }) => {
         onSubmit={async values => {
           try {
             const res = await axios.post("/user/login", values);
-            console.log("success", res);
+            !res.data.success
+              ? setBeError(res.data.message)
+              : history.push("/admin");
           } catch (error) {
-            console.log(error.message);
+            setBeError("Doslo je do greske!");
           }
         }}
       >

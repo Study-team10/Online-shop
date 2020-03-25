@@ -11,7 +11,9 @@ const SignupSchema = Yup.object().shape({
     .max(50, "Too Long!")
     .matches(/^([^0-9]*)$/, "Only letters allowed")
     .required("Required"),
-  age: Yup.string().matches(/^(1[5-9]|[2-9][0-9])$/, "Invalid data!"),
+  age: Yup.string()
+    .matches(/^(1[5-9]|[2-9][0-9])$/, "Invalid data!")
+    .required("Required"),
   password: Yup.string()
     .min(5, "Too Short!")
     .max(16, "Too Long!")

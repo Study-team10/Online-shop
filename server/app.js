@@ -5,6 +5,10 @@ import cors from "cors";
 
 import userRoutes from "./routes/user";
 
+require("dotenv").config();
+
+const { PORT } = process.env;
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -20,8 +24,8 @@ mongoose
     useUnifiedTopology: true
   })
   .then(() => {
-    app.listen(3001);
-    console.log("App is online");
+    app.listen(PORT);
+    console.log("App is online on port " + PORT);
   })
   .catch(err => {
     console.log("Shutting down...");

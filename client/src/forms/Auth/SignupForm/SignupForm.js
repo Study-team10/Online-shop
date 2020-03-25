@@ -1,26 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Field, Form } from "formik";
 import { SignupSchema } from "@forms/validations";
 import { Grid, ErrorMessage } from "@components";
 import { TextInput } from "@inputs";
 import { axios } from "@util";
+import { useHistory } from "react-router";
 
 const SignupForm = ({ switchForm }) => {
-  const handleSubmit = async values => {
-    console.log(values);
-    try {
-      const res = await axios.post("/user/signup", {
-        firstName: "Kristina",
-        lastName: "Pejcic",
-        password: values.password,
-        email: values.email,
-        age: 25
-      });
-      console.log(res);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  const { beError, setBeError } = useState("");
+  const history = useHistory();
+
   return (
     <Grid container>
       <Formik
@@ -35,9 +24,12 @@ const SignupForm = ({ switchForm }) => {
         onSubmit={async values => {
           try {
             const res = await axios.post("/user/signup", values);
-            console.log("success", res);
+
+            !res.data.success
+              ? setBeError(res.data.message)
+              : history.push("/admin");
           } catch (error) {
-            console.log(error.message);
+            setBeError(error.data.message);
           }
         }}
       >
@@ -79,10 +71,12 @@ const SignupForm = ({ switchForm }) => {
                   Login here
                 </span>
               </p>
-              {errors.password && touched.password && errors.password}
               <button type="submit" disabled={isSubmitting}>
                 Submit
               </button>
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                {beError}
+              </Grid>
             </Form>
           );
         }}

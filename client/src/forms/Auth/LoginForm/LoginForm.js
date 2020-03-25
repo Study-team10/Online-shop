@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Field, Form } from "formik";
 import { LoginSchema } from "@forms/validations";
 import { Grid, ErrorMessage } from "@components";
@@ -57,6 +57,9 @@ const LoginForm = ({ switchForm }) => {
                   touched={touched.password}
                   value={errors.password}
                 />
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                {beError}
               </Grid>
               <p>
                 Don't have account?

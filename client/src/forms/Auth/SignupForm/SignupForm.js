@@ -6,6 +6,7 @@ import { axios } from "@util";
 
 const SignupForm = ({ switchForm }) => {
   const [beError, setBeError] = useState("");
+  const [success, setSuccess] = useState("");
 
   return (
     <Grid container>
@@ -21,7 +22,12 @@ const SignupForm = ({ switchForm }) => {
         onSubmit={async values => {
           try {
             const res = await axios.post("/user/signup", values);
-            !res.data.success ? setBeError(res.data.message) : switchForm(true);
+            if (!res.data.success) {
+              setBeError(res.data.message);
+            } else {
+              setSuccess("You successfully created account!");
+              setTimeout(() => switchForm(true), 2000);
+            }
           } catch (error) {
             setBeError("Doslo je do greske!");
           }
@@ -30,6 +36,9 @@ const SignupForm = ({ switchForm }) => {
         {({ values, errors, touched, isSubmitting, ...props }) => {
           return (
             <Form>
+              <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                {success}
+              </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                 <Field name="firstName" type="text" placeholder="First Name" />
                 <ErrorMessage

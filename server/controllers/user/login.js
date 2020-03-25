@@ -13,12 +13,12 @@ export const login = async (req, res, next) => {
         const { email, password } = req.body;
         let existingUser = await User.findOne({ email });
         if (!existingUser)
-            return res.status(400).json(response(false, "User does not exist"));
+            return res.status(201).json(response(false, "User does not exist"));
 
         const correctPassword = await bcrypt.compare(password, existingUser.password);
 
         if (!correctPassword)
-            return res.status(400).json(response(false, "Not valid user"));
+            return res.status(201).json(response(false, "Not valid user"));
 
         const token = await jwt.sign({ idUser: existingUser.id, firstName: existingUser.firstName, lastName: existingUser.lastName, role: existingUser.role }, JWT_SECRET);
         res.setHeader("Authorization", "Bearer " + token);

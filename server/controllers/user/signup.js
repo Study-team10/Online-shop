@@ -6,8 +6,8 @@ import { response } from "../../utils"
 export const signup = async (req, res, next) => {
     try {
 
-        const { firstName, lastName, email, password, age } = req.body;
-        if (!firstName || !lastName || !email || !password || !age)
+        const { firstName, lastName, email, password, age, role } = req.body;
+        if (!firstName || !lastName || !email || !password || !age || !role)
             return res.status(201).json(response(false, "All fields are required."));
 
         const existingEmail = await User.findOne({ email });
@@ -20,7 +20,8 @@ export const signup = async (req, res, next) => {
             lastName,
             email,
             age,
-            password: newPass
+            password: newPass,
+            role
         });
 
         await user.save(function (err) {

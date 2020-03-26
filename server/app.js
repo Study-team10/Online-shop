@@ -14,7 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use("/user", userRoutes);
 
-app.use("/", () => {
+app.use("/", (req, res, next) => {
   res.json({ "message": "Not found" });
 });
 

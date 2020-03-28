@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LoginForm, SignupForm } from "@forms";
 import { Grid } from "@components";
 import styled from "styled-components";
+import { axios } from "@util";
 
 const Accordion = styled.ul`
   width: 100%;
@@ -114,12 +115,23 @@ const menuLinks = [
     ]
   }
 ];
-const AdminHome = () => {
+const AdminUsers = () => {
   const [showSubmenu, setShowSubmenu] = useState("");
   const toggleSubmenu = id => {
     console.log(id);
     showSubmenu === id ? setShowSubmenu("") : setShowSubmenu(id);
   };
+  useEffect(() => {
+    const users = async () => {
+      try {
+        const result = await axios.get("/user/getallusers");
+        console.log(result);
+      } catch (error) {}
+    };
+
+    users();
+  }, []);
+
   return (
     <Grid
       style={{
@@ -166,28 +178,15 @@ const AdminHome = () => {
                 </li>
               ))}
             </Accordion>
-            {/* <ul>
-              <li>
-                <a href="/admin/users">Users</a>
-                <ul>
-                  <li>
-                    <a href="/admin/users">All users</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a href="/admin/users">Products</a>
-              </li>
-            </ul> */}
           </Grid>
         </Grid>
       </Grid>
       <Grid item xs={12} sm={8} md={8} lg={9} xl={9}>
         <Grid container>
-          <h1>Welcome! This is admin dashboard!</h1>
+          <h1>Users List!</h1>
         </Grid>
       </Grid>
     </Grid>
   );
 };
-export default AdminHome;
+export default AdminUsers;

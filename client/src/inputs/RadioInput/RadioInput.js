@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import Typography from "../../components/Typography/Typography";
+import { Typography } from "@components";
 
 const RadioInput = ({ checked, label, ...props }) => {
   const RadioContainer = styled.div`
@@ -37,7 +37,7 @@ const RadioInput = ({ checked, label, ...props }) => {
     height: 30px;
     border: 1px solid
       ${({ theme, checked }) =>
-      checked ? theme.colors.orange : theme.colors.lightOrange};
+        checked ? theme.colors.orange : theme.colors.lightOrange};
     transition: all 150ms;
     border-radius: 50%;
 

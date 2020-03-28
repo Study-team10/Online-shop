@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Typography, Grid } from "../../components";
-// import Check from "../../../public/static/icons/check.svg";
+import { Typography, Grid } from "@components";
+import Check from "@assets/static/icons/check.svg";
 
 const CheckboxInput = ({ checked, label, value, ...props }) => {
   const CheckboxContainer = styled.div`
@@ -60,9 +60,9 @@ const CheckboxInput = ({ checked, label, value, ...props }) => {
               style={{ width: "100%", height: "100%" }}
             >
               <Grid style={{ width: "16px", height: "16px" }}>
-                {/* <Check
+                <Check
                   style={{ fill: "orange", width: "14px", height: "14px" }}
-                /> */}
+                />
               </Grid>
             </Grid>
 

@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-// import SvgArrow from "../../../public/static/icons/arrow-down.svg";
-// import { Star } from "@components";
+import SvgArrow from "@assets/static/icons/arrow-down.svg";
+import { Star } from "@components";
 
 const Wraper = styled.div``;
 
@@ -172,18 +172,18 @@ const SelectInput = ({
         onBlur={() => setState({ ...state, showItems: false })}
       >
         <SelectBox onClick={dropDown} disabled={disabled}>
-          {/* <Star /> */}
+          <Star />
           <SelectBoxInput
             style={{ color: state.selectedItem ? "#3a414a" : "#dbdbdb" }}
           >
             {state.selectedItem ? state.selectedItem.value : placeholder}
           </SelectBoxInput>
           <SelectArrow>
-            {/* <SvgArrow
+            <SvgArrow
               width={"27px"}
               height={"17px"}
               fill={state.selectedItem ? "#3a414a" : "#dbdbdb"}
-            /> */}
+            />
           </SelectArrow>
         </SelectBox>
         {options && (

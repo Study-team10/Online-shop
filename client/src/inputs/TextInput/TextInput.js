@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Grid } from "@components";
+import { Grid, Star } from "@components";
 
 const TextArea = styled.textarea`
   border: "2px solid orange";
@@ -9,7 +9,7 @@ const TextArea = styled.textarea`
   border-radius: 10px;
   padding-left: 31px;
   font-family: "Montserrat";
-  font-size: 25px;
+  font-size: 18px;
   font-weight: 400;
   &:focus {
     outline: none !important;
@@ -25,7 +25,7 @@ const Input = styled.input`
   box-sizing: border-box;
   position: relative;
   padding-left: 31px;
-  height: 60px;
+  height: 50px;
   width: ${props => (props.fullWidth ? "100%" : "auto")};
   line-height: 24px;
   border: 1px solid ${({ theme }) => theme.colors.secondaryLightGray};
@@ -60,7 +60,7 @@ const TextInput = ({
   value,
   name,
   id,
-  // handleChange,
+  handleChange,
   multiline = false,
   rows,
   fullWidth = false,
@@ -72,12 +72,11 @@ const TextInput = ({
   disabled = false,
   placeholder,
   style,
-  ...props
+  ...other
 }) => {
-  console.log(props.field);
   return (
     <Grid style={style}>
-      {/* {multiline ? (
+      {multiline ? (
         <TextArea
           name={name}
           onChange={handleChange}
@@ -89,51 +88,50 @@ const TextInput = ({
           value={value}
           type={type}
           placeholder={placeholder}
-          {...props}
+          {...other}
         />
-      ) :
-       ( */}
-      <Grid style={style}>
-        <Grid style={{ position: "relative" }}>
-          {/* {required && <Star />} */}
-          <Input
-            name={name}
-            type={type}
-            id={id}
-            multiline={multiline}
-            value={value}
-            onChange={props.handleChange}
-            fullWidth={fullWidth}
-            onPaste={e => {
-              if (disablePaste) {
-                e.preventDefault();
-              }
-            }}
-            variant={variant}
-            disabled={disabled}
-            placeholder={placeholder}
-            {...props}
-          />
+      ) : (
+        <Grid style={style}>
+          <Grid style={{ position: "relative", margin: 10 }}>
+            {required && <Star />}
+            <Input
+              name={name}
+              type={type}
+              id={id}
+              multiline={multiline}
+              value={value}
+              onChange={handleChange}
+              fullWidth={fullWidth}
+              onPaste={e => {
+                if (disablePaste) {
+                  e.preventDefault();
+                }
+              }}
+              variant={variant}
+              disabled={disabled}
+              placeholder={placeholder}
+              {...other}
+            />
+          </Grid>
         </Grid>
-      </Grid>
-      {/* )} */}
+      )}
     </Grid>
   );
 };
 
 TextInput.propTypes = {
   value: PropTypes.string,
-  name: PropTypes.string
-  // placeholder: PropTypes.string,
-  // label: PropTypes.string,
-  // handleChange: PropTypes.func,
-  // multiline: PropTypes.bool,
-  // fullWidth: PropTypes.bool,
-  // disablePaste: PropTypes.bool,
-  // variant: PropTypes.oneOf(["text", "outlined", "contained"]),
-  // type: PropTypes.string,
-  // required: PropTypes.bool,
-  // disabled: PropTypes.bool
+  name: PropTypes.string,
+  placeholder: PropTypes.string,
+  label: PropTypes.string,
+  handleChange: PropTypes.func,
+  multiline: PropTypes.bool,
+  fullWidth: PropTypes.bool,
+  disablePaste: PropTypes.bool,
+  variant: PropTypes.oneOf(["text", "outlined", "contained"]),
+  type: PropTypes.string,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool
 };
 
 export default TextInput;

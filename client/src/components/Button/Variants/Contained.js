@@ -10,7 +10,5 @@ export default styled(Default)`
   &:hover,
   &:active {
     outline: none;
-    /* background: ${({ theme, color, disabled }) =>
-      !disabled && theme.colors.darken(theme.colors[color], 0.2)}; */
   }
 `;

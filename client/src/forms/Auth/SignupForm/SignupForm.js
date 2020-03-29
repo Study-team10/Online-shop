@@ -115,7 +115,7 @@ import useFormik from "@hooks/useFormik";
 
 const SignupForm = ({ switchForm }) => {
   const [beError, setBeError] = useState("");
-  const [setSuccess] = useState("");
+  const [success, setSuccess] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -129,6 +129,7 @@ const SignupForm = ({ switchForm }) => {
       values.role = "Admin";
       try {
         const res = await axios.post("/user/signup", values);
+        console.log(res);
         if (!res.data.success) {
           setBeError(res.data.message);
         } else {
@@ -136,6 +137,7 @@ const SignupForm = ({ switchForm }) => {
           setTimeout(() => switchForm(true), 2000);
         }
       } catch (error) {
+        console.log(error);
         setBeError("Doslo je do greske!");
       }
     },

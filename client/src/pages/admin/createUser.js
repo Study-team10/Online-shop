@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Grid, Card, CardSide, Spinner } from "@components";
 import styled from "styled-components";
 import { withTokenAxios } from "@util";
+import { SignupForm } from "@forms";
 import UserIcon from "@assets/static/icons/user_male.png";
 import CategoryIcon from "@assets/static/icons/category.png";
 import ProductIcon from "@assets/static/icons/product.png";
@@ -59,7 +60,7 @@ const TableHeading = styled.p`
   background-clip: text;
   background-image: linear-gradient(to right, #ffc107, #ff9800); */
 `;
-const AdminUsers = () => {
+const CreateUser = () => {
   const [users, setUsers] = useState();
   const getUsers = async () => {
     try {
@@ -176,163 +177,14 @@ const AdminUsers = () => {
       >
         <Grid container direction="column">
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Heading>Users List</Heading>
+            <Heading>Create user</Heading>
           </Grid>
-
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Grid
-              container
-              justify="space-between"
-              style={{
-                backgroundImage: "linear-gradient(45deg, #FFC107, #FF9800)",
-                textAlign: "center"
-              }}
-            >
-              <Grid
-                style={{ border: "1px solid rgb(81, 77, 251)" }}
-                item
-                xs={12}
-                sm={3}
-                md={3}
-                lg={3}
-                xl={3}
-              >
-                <TableHeading>Name</TableHeading>
-              </Grid>
-              <Grid
-                style={{ border: "1px solid rgb(81, 77, 251)" }}
-                item
-                xs={12}
-                sm={3}
-                md={3}
-                lg={3}
-                xl={3}
-              >
-                <TableHeading>Email</TableHeading>
-              </Grid>
-              <Grid
-                style={{ border: "1px solid rgb(81, 77, 251)" }}
-                item
-                xs={12}
-                sm={3}
-                md={3}
-                lg={3}
-                xl={3}
-              >
-                <TableHeading>Role</TableHeading>
-              </Grid>
-              <Grid
-                style={{ border: "1px solid rgb(81, 77, 251)" }}
-                item
-                xs={12}
-                sm={2}
-                md={2}
-                lg={2}
-                xl={2}
-              >
-                <TableHeading>Age</TableHeading>
-              </Grid>
-              <Grid
-                style={{ border: "1px solid rgb(81, 77, 251)" }}
-                item
-                xs={12}
-                sm={1}
-                md={1}
-                lg={1}
-                xl={1}
-              >
-                <TableHeading>Actions</TableHeading>
-              </Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            {users.map(user => (
-              <Grid
-                key={user._id}
-                container
-                justify="space-between"
-                style={{
-                  color: "rgb(158, 200, 255)",
-                  border: "1px solid rgb(81, 77, 251)"
-                }}
-              >
-                <Grid
-                  style={{
-                    textAlign: "center"
-                  }}
-                  item
-                  xs={12}
-                  sm={3}
-                  md={3}
-                  lg={3}
-                  xl={3}
-                >
-                  {user.firstName} {user.lastName}
-                </Grid>
-                <Grid
-                  style={{
-                    textAlign: "center"
-                  }}
-                  item
-                  xs={12}
-                  sm={3}
-                  md={3}
-                  lg={3}
-                  xl={3}
-                >
-                  {user.email}
-                </Grid>
-                <Grid
-                  style={{
-                    textAlign: "center"
-                  }}
-                  item
-                  xs={12}
-                  sm={3}
-                  md={3}
-                  lg={3}
-                  xl={3}
-                >
-                  {user.role}
-                </Grid>
-                <Grid
-                  style={{
-                    textAlign: "center"
-                  }}
-                  item
-                  xs={12}
-                  sm={2}
-                  md={2}
-                  lg={2}
-                  xl={2}
-                >
-                  {user.age}
-                </Grid>
-                <Grid
-                  style={{
-                    textAlign: "center"
-                  }}
-                  item
-                  xs={12}
-                  sm={1}
-                  md={1}
-                  lg={1}
-                  xl={1}
-                >
-                  <img
-                    onClick={() => deleteUser(user._id)}
-                    style={{ width: "20px", cursor: "pointer" }}
-                    src={DeleteIcon}
-                    alt="delete user"
-                  />
-                </Grid>
-              </Grid>
-            ))}
+            <SignupForm isCreateAdminForm />
           </Grid>
         </Grid>
       </Grid>
     </Grid>
   );
 };
-export default AdminUsers;
+export default CreateUser;

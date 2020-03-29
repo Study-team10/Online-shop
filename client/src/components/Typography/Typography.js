@@ -36,14 +36,14 @@ const Typography = ({
   let fontSizeVariant = 15;
   let font = "Montserrat";
   let showAs = "p";
-  let colorVariant = theme.colors.darkGray;
+  let colorVariant = theme.colors.tertiaryDark;
   let fontWeightSize = 400;
   let fontSizeMobile = 14;
 
   switch (variant) {
     case "heading":
-      fontSizeVariant = 50;
-      fontSizeMobile = 45;
+      fontSizeVariant = 35;
+      fontSizeMobile = 30;
       fontWeightSize = 900;
       font = "Raleway";
       showAs = "h1";
@@ -51,7 +51,7 @@ const Typography = ({
       break;
     case "subheader":
       fontSizeVariant = 25;
-      fontSizeMobile = 45;
+      fontSizeMobile = 20;
       fontWeightSize = 700;
       font = "Montserrat";
       showAs = "h3";
@@ -96,8 +96,17 @@ const Typography = ({
       colorVariant = theme.colors.darkGray;
       showAs = "span";
       break;
+    case "textLink":
+      fontSizeVariant = 15;
+      fontSizeMobile = 15;
+      fontWeightSize = 400;
+      font = "Montserrat";
+      display = "inline";
+      colorVariant = theme.colors.textLink;
+      showAs = "span";
+      break;
     default:
-      colorVariant = theme.colors.darkGray;
+      colorVariant = theme.colors.text;
       break;
   }
   if (fontWeight) {

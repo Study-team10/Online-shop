@@ -18,7 +18,10 @@ const theme = {
     greyDark3: "#333",
 
     white: "#fff",
-    black: "#000"
+    black: "#000",
+    error: "#c50303",
+    textLink: "rgb(158, 200, 255);",
+    text: "#ccc"
   },
   sizes: {
     xs: "600px",

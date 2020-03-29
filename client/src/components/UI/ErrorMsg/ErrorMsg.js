@@ -13,12 +13,19 @@ const StyledError = styled.p`
 `;
 const ContainedError = styled(StyledError)`
   padding: 10px;
-  height: 35px;
-  background: ${({ children }) => children && "#f9000038"};
+  background: ${({ children, success, theme: { colors } }) =>
+    children && !success ? colors.error : colors.primaryDark};
+  color: ${({ children, success, theme }) => children && theme.colors.white};
+  text-align: center;
+  font-size: 1rem;
 `;
-const ErrorMsg = ({ children, variant, ...props }) => {
+const ErrorMsg = ({ children, variant, success = false, ...props }) => {
   if (variant === "contained") {
-    return <ContainedError {...props}>{children}</ContainedError>;
+    return (
+      <ContainedError success={success} {...props}>
+        {children}
+      </ContainedError>
+    );
   }
   return <StyledError {...props}>{children}</StyledError>;
 };

@@ -24,15 +24,16 @@ const Input = styled.input`
   font-family: "Montserrat";
   box-sizing: border-box;
   position: relative;
-  padding-left: 31px;
-  height: 50px;
+  /* padding-left: 31px;
+  height: 50px; */
+  padding: 15px 5px 15px 30px;
   width: ${props => (props.fullWidth ? "100%" : "auto")};
   line-height: 24px;
   border: 1px solid ${({ theme }) => theme.colors.secondaryLightGray};
   border-radius: 10px;
   opacity: 1;
   color: ${({ theme }) => theme.colors.darkGray};
-  font-size: 20px;
+  font-size: 18px;
   &:focus {
     line-height: 24px;
     outline: none !important;

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Default from "./Default";
-// import { darken } from "~/src/utils/colorManipulation";
 
 export default styled(Default)`
   background: ${({ theme, color }) =>
@@ -10,5 +9,7 @@ export default styled(Default)`
   &:hover,
   &:active {
     outline: none;
+    background: ${({ theme, color, disabled }) =>
+      !disabled && theme.colors[color]};
   }
 `;

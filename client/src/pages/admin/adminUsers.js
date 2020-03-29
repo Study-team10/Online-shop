@@ -1,137 +1,88 @@
 import React, { useState, useEffect } from "react";
-import { LoginForm, SignupForm } from "@forms";
-import { Grid } from "@components";
+import { Grid, Card, CardSide, Spinner } from "@components";
 import styled from "styled-components";
-import { axios } from "@util";
-
-const Accordion = styled.ul`
-  width: 100%;
-  /* max-width: 360px; */
-  margin: 30px auto 20px;
-  background: #fff;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  list-style-type: none;
-  padding: 0;
-
-  & .link {
-    cursor: pointer;
-    display: block;
-    padding: 15px 15px 15px 42px;
-    color: #4d4d4d;
-    font-size: 14px;
-    font-weight: 700;
-    border-bottom: 1px solid #ccc;
-    position: relative;
-    -webkit-transition: all 0.4s ease;
-    -o-transition: all 0.4s ease;
-    transition: all 0.4s ease;
-  }
-
-  & li:last-child .link {
-    border-bottom: 0;
-  }
-
-  & li i {
-    position: absolute;
-    top: 16px;
-    left: 12px;
-    font-size: 18px;
-    color: #595959;
-    -webkit-transition: all 0.4s ease;
-    -o-transition: all 0.4s ease;
-    transition: all 0.4s ease;
-  }
-
-  & li i.fa-chevron-down {
-    right: 12px;
-    left: auto;
-    font-size: 16px;
-  }
-
-  & li.open .link {
-    color: #b63b4d;
-  }
-
-  & li.open i {
-    color: #b63b4d;
-  }
-
-  & li.open i.fa-chevron-down {
-    -webkit-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
-    -o-transform: rotate(180deg);
-    transform: rotate(180deg);
-  }
-`;
-
-const Submenu = styled.ul`
-  background-image: linear-gradient(to bottom left, black, rgb(54, 92, 160));
-  font-size: 14px;
-  list-style-type: none;
-  padding: 0;
-  display: none;
-
-  &.active {
-    display: block;
-  }
-  & li {
-    border-bottom: 1px solid #4b4a5e;
-  }
-
-  & a {
-    display: block;
-    text-decoration: none;
-    color: #d9d9d9;
-    padding: 12px;
-    padding-left: 42px;
-    -webkit-transition: all 0.25s ease;
-    -o-transition: all 0.25s ease;
-    transition: all 0.25s ease;
-  }
-
-  & a:hover {
-    background: #b63b4d;
-    color: #fff;
-  }
-`;
+import { withTokenAxios } from "@util";
+import UserIcon from "@assets/static/icons/user_male.png";
+import CategoryIcon from "@assets/static/icons/category.png";
+import ProductIcon from "@assets/static/icons/product.png";
+import DeleteIcon from "@assets/static/icons/delete.png";
 
 const menuLinks = [
   {
     title: "Users",
     url: "/admin/users",
+    color: "orange",
+    icon: UserIcon,
     children: [
       { title: "All users", url: "/admin/users" },
       { title: "Create user", url: "/admin/users/create" }
     ]
   },
   {
+    title: "Categories",
+    url: "/admin/products",
+    color: "blue",
+    icon: CategoryIcon,
+    children: [
+      { title: "All products", url: "/admin/products" },
+      { title: "Create product", url: "/admin/products/create" }
+    ]
+  },
+  {
     title: "Products",
     url: "/admin/products",
+    color: "green",
+    icon: ProductIcon,
     children: [
       { title: "All products", url: "/admin/products" },
       { title: "Create product", url: "/admin/products/create" }
     ]
   }
 ];
-const AdminUsers = () => {
-  const [showSubmenu, setShowSubmenu] = useState("");
-  const toggleSubmenu = id => {
-    console.log(id);
-    showSubmenu === id ? setShowSubmenu("") : setShowSubmenu(id);
-  };
-  useEffect(() => {
-    const users = async () => {
-      try {
-        const result = await axios.get("/user/getallusers");
-        console.log(result);
-      } catch (error) {}
-    };
 
-    users();
+const Heading = styled.h1`
+  color: transparent;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: linear-gradient(to right, #ffc107, #ff9800);
+`;
+const TableHeading = styled.p`
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgb(32, 54, 93);
+  /* color: transparent;
+  display: inline-block;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: linear-gradient(to right, #ffc107, #ff9800); */
+`;
+const AdminUsers = () => {
+  const [users, setUsers] = useState();
+  const getUsers = async () => {
+    try {
+      const result = await withTokenAxios.get("/user/getallusers");
+
+      setUsers(result.data);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    getUsers();
   }, []);
 
+  const deleteUser = async id => {
+    console.log(id);
+    try {
+      await withTokenAxios.delete(`/user/deleteuser/${id}`);
+      getUsers();
+    } catch (error) {}
+  };
+  if (!users) {
+    return <Spinner />;
+  }
   return (
     <Grid
       style={{
@@ -154,36 +105,231 @@ const AdminUsers = () => {
       >
         <Grid container>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Accordion id="accordion" className="accordion">
-              {menuLinks.map((item, id) => (
-                <li onClick={() => toggleSubmenu(id)} key={id}>
-                  <div className="link">
-                    <i className="fa fa-database"></i>
-                    {item.title}
-                    <i className="fa fa-chevron-down"></i>
-                  </div>
-                  {item.children && (
-                    <Submenu
-                      className={
-                        showSubmenu === id ? "active submenu" : "submenu"
-                      }
-                    >
-                      {item.children.map((item, i) => (
-                        <li key={i}>
-                          <a href={item.url}>{item.title}</a>
-                        </li>
+            {menuLinks.map((item, i) => (
+              <Grid key={i} item xs={12} sm={12} md={12} lg={12} xl={12}>
+                {/* Card */}
+                <Card sidebar>
+                  {/* Front side */}
+                  <CardSide color={item.color}>
+                    <Grid container direction="column">
+                      <Grid
+                        style={{ textAlign: "center" }}
+                        item
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        xl={12}
+                      >
+                        <img
+                          style={{ height: "100px" }}
+                          src={item.icon}
+                          alt={item.title}
+                        />
+                      </Grid>
+                      <Grid
+                        style={{ textAlign: "center" }}
+                        item
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        xl={12}
+                      >
+                        <h3> {item.title}</h3>
+                      </Grid>
+                    </Grid>
+                  </CardSide>
+
+                  {/* Back Side*/}
+                  <CardSide frontSide={false}>
+                    <Grid container direction="column">
+                      {item.children.map((submenu, index) => (
+                        <Grid
+                          key={index}
+                          item
+                          xs={12}
+                          sm={12}
+                          md={12}
+                          lg={12}
+                          xl={12}
+                        >
+                          <a href={submenu.url}> {submenu.title}</a>
+                        </Grid>
                       ))}
-                    </Submenu>
-                  )}
-                </li>
-              ))}
-            </Accordion>
+                    </Grid>
+                  </CardSide>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12} sm={8} md={8} lg={9} xl={9}>
-        <Grid container>
-          <h1>Users List!</h1>
+      <Grid
+        item
+        xs={12}
+        sm={8}
+        md={8}
+        lg={9}
+        xl={9}
+        style={{ padding: "30px" }}
+      >
+        <Grid container direction="column">
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <Heading>Users List</Heading>
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <Grid
+              container
+              justify="space-between"
+              style={{
+                backgroundImage: "linear-gradient(45deg, #FFC107, #FF9800)",
+                textAlign: "center"
+              }}
+            >
+              <Grid
+                style={{ border: "1px solid rgb(81, 77, 251)" }}
+                item
+                xs={12}
+                sm={3}
+                md={3}
+                lg={3}
+                xl={3}
+              >
+                <TableHeading>Name</TableHeading>
+              </Grid>
+              <Grid
+                style={{ border: "1px solid rgb(81, 77, 251)" }}
+                item
+                xs={12}
+                sm={3}
+                md={3}
+                lg={3}
+                xl={3}
+              >
+                <TableHeading>Email</TableHeading>
+              </Grid>
+              <Grid
+                style={{ border: "1px solid rgb(81, 77, 251)" }}
+                item
+                xs={12}
+                sm={3}
+                md={3}
+                lg={3}
+                xl={3}
+              >
+                <TableHeading>Role</TableHeading>
+              </Grid>
+              <Grid
+                style={{ border: "1px solid rgb(81, 77, 251)" }}
+                item
+                xs={12}
+                sm={2}
+                md={2}
+                lg={2}
+                xl={2}
+              >
+                <TableHeading>Age</TableHeading>
+              </Grid>
+              <Grid
+                style={{ border: "1px solid rgb(81, 77, 251)" }}
+                item
+                xs={12}
+                sm={1}
+                md={1}
+                lg={1}
+                xl={1}
+              >
+                <TableHeading>Actions</TableHeading>
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            {users.map(user => (
+              <Grid
+                key={user._id}
+                container
+                justify="space-between"
+                style={{
+                  color: "rgb(158, 200, 255)",
+                  border: "1px solid rgb(81, 77, 251)"
+                }}
+              >
+                <Grid
+                  style={{
+                    textAlign: "center"
+                  }}
+                  item
+                  xs={12}
+                  sm={3}
+                  md={3}
+                  lg={3}
+                  xl={3}
+                >
+                  {user.firstName} {user.lastName}
+                </Grid>
+                <Grid
+                  style={{
+                    textAlign: "center"
+                  }}
+                  item
+                  xs={12}
+                  sm={3}
+                  md={3}
+                  lg={3}
+                  xl={3}
+                >
+                  {user.email}
+                </Grid>
+                <Grid
+                  style={{
+                    textAlign: "center"
+                  }}
+                  item
+                  xs={12}
+                  sm={3}
+                  md={3}
+                  lg={3}
+                  xl={3}
+                >
+                  {user.role}
+                </Grid>
+                <Grid
+                  style={{
+                    textAlign: "center"
+                  }}
+                  item
+                  xs={12}
+                  sm={2}
+                  md={2}
+                  lg={2}
+                  xl={2}
+                >
+                  {user.age}
+                </Grid>
+                <Grid
+                  style={{
+                    textAlign: "center"
+                  }}
+                  item
+                  xs={12}
+                  sm={1}
+                  md={1}
+                  lg={1}
+                  xl={1}
+                >
+                  <img
+                    onClick={() => deleteUser(user._id)}
+                    style={{ width: "20px", cursor: "pointer" }}
+                    src={DeleteIcon}
+                    alt="delete user"
+                  />
+                </Grid>
+              </Grid>
+            ))}
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

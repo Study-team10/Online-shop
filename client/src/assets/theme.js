@@ -1,21 +1,24 @@
 const theme = {
   colors: {
-    white: "#FFFFFF",
-    orange: "#EF4F26",
-    primary: "#EF4F26",
-    primaryDark: "#bd3410", //crvena
-    lightOrange: "#FF8800",
-    lightGray: "#F3F3F5",
-    secondaryLightGray: "#DDDEE0",
-    darkGray: "#3A414A",
-    blue: "#26486D",
-    secondary: "#26486D",
-    secondaryDark: "#123254",
-    inputOutline: "DBDBDB",
-    success: "#25ae88",
-    warning: "#ec7920",
-    medium: "#d2b62a",
-    error: "#d53333"
+    primary: "#55c57a",
+    primaryLight: "#7ed56f",
+    primaryDark: "#28b485",
+
+    secondaryLight: "#ffb900",
+    secondaryDark: "#ff7730",
+
+    tertiaryLight: "#2998ff",
+    tertiaryDark: "#5643fa",
+
+    greyLight1: "#f7f7f7",
+    greyLight2: "#eee",
+
+    greyDark: "#777",
+    greyDark2: "#999",
+    greyDark3: "#333",
+
+    white: "#fff",
+    black: "#000"
   },
   sizes: {
     xs: "600px",

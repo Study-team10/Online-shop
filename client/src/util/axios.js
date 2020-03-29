@@ -9,7 +9,8 @@ export const withTokenAxios = axiosMain.create({
 export const axios = axiosMain.create({
   baseURL: url,
   headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Headers": "Authorization",
+    "Access-Control-Allow-Origin": "*"
   }
 });

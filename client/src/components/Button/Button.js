@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { Grid } from "@components";
-import styled from "styled-components";
 //  button variants
 import Default from "./Variants/Default";
 import Contained from "./Variants/Contained";

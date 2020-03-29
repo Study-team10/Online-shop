@@ -10,12 +10,13 @@ require("dotenv").config();
 const { PORT } = process.env;
 
 const app = express();
-app.use(cors());
+// app.use(cors());
+app.use(cors({ exposedHeaders: "Authorization" }));
 app.use(bodyParser.json());
 app.use("/user", userRoutes);
 
 app.use("/", (req, res, next) => {
-  res.json({ "message": "Not found" });
+  res.json({ message: "Not found" });
 });
 
 mongoose

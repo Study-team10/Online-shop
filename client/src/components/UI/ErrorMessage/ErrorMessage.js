@@ -1,9 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-import PropTypes from "prop-types";
-import { StyledGrid } from "../Grid/Grid";
-
 const StyledError = styled.p`
   height: 20px;
   font-size: 0.8rem;

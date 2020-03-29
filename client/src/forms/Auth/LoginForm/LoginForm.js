@@ -87,7 +87,7 @@
 
 import React, { useState } from "react";
 import { LoginSchema } from "@forms/validations";
-import { ErrorMsg, Hidden, Field, Button, Grid, Typography } from "@components";
+import { ErrorMsg, Field, Button, Grid } from "@components";
 import { axios } from "@util";
 import { useHistory } from "react-router";
 import useFormik from "@hooks/useFormik";
@@ -103,23 +103,22 @@ const LoginForm = ({ switchForm }) => {
     onSubmit: async values => {
       try {
         const res = await axios.post("/user/login", values);
-        !res.data.success
-          ? setBeError(res.data.message)
-          : history.push("/admin");
+        if (res.data.success) {
+          localStorage.setItem(
+            "token",
+            res.headers.authorization.split(" ")[1]
+          );
+          history.push("/admin/users");
+        } else {
+          setBeError(res.data.message);
+        }
       } catch (error) {
         setBeError("OOOPS! Login failed!");
       }
     },
     validationSchema: LoginSchema
   });
-  const {
-    handleSubmit,
-    getFieldProps,
-    touched,
-    errors,
-    isValid,
-    submitError
-  } = formik;
+  const { handleSubmit, getFieldProps, touched, errors, isValid } = formik;
 
   return (
     <div>

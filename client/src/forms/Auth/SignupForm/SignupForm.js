@@ -109,14 +109,13 @@
 
 import React, { useState } from "react";
 import { SignupSchema } from "@forms/validations";
-import { ErrorMsg, Hidden, Field, Button, Grid, Typography } from "@components";
+import { ErrorMsg, Field, Button, Grid } from "@components";
 import { axios } from "@util";
-import { useHistory } from "react-router";
 import useFormik from "@hooks/useFormik";
 
 const SignupForm = ({ switchForm }) => {
   const [beError, setBeError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [setSuccess] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -127,6 +126,7 @@ const SignupForm = ({ switchForm }) => {
       age: ""
     },
     onSubmit: async values => {
+      values.role = "Admin";
       try {
         const res = await axios.post("/user/signup", values);
         if (!res.data.success) {
@@ -141,14 +141,7 @@ const SignupForm = ({ switchForm }) => {
     },
     validationSchema: SignupSchema
   });
-  const {
-    handleSubmit,
-    getFieldProps,
-    touched,
-    errors,
-    isValid,
-    submitError
-  } = formik;
+  const { handleSubmit, getFieldProps, touched, errors, isValid } = formik;
   return (
     <div>
       <form onSubmit={handleSubmit}>
